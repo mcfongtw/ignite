@@ -25,7 +25,6 @@ import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.UUID;
 import org.apache.ignite.IgniteCheckedException;
-import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.internal.client.marshaller.GridClientMarshaller;
 import org.apache.ignite.internal.processors.rest.client.message.GridClientHandshakeRequest;
 import org.apache.ignite.internal.processors.rest.client.message.GridClientHandshakeResponse;
@@ -43,7 +42,6 @@ import org.apache.ignite.internal.util.typedef.internal.S;
 import org.apache.ignite.internal.util.typedef.internal.U;
 import org.apache.ignite.marshaller.Marshaller;
 import org.apache.ignite.marshaller.jdk.JdkMarshaller;
-import org.apache.ignite.resources.LoggerResource;
 import org.jetbrains.annotations.Nullable;
 
 import static org.apache.ignite.internal.processors.rest.protocols.tcp.GridMemcachedMessage.BOOLEAN_FLAG;
@@ -70,9 +68,6 @@ import static org.apache.ignite.internal.util.nio.GridNioSessionMetaKey.PARSER_S
  * Parser for extended memcache protocol. Handles parsing and encoding activity.
  */
 public class GridTcpRestParser implements GridNioParser {
-
-    @LoggerResource
-    private IgniteLogger logger;
 
     /** UTF-8 charset. */
     private static final Charset UTF_8 = Charset.forName("UTF-8");
@@ -773,8 +768,6 @@ public class GridTcpRestParser implements GridNioParser {
                 return bytes;
             default:
             {
-                if(logger.isDebugEnabled())
-                    logger.debug("isKey"+ isKey+ ", key="+ new String(bytes, UTF_8));
                 return isKey ? new String(bytes, UTF_8) : bytes;
             }
         }
